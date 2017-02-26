@@ -1,0 +1,53 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Paint</title>
+        <link rel="stylesheet" href="css/normalize.css">
+        <link rel="stylesheet" href="css/paint.css">
+        <script src="lib/jquery-3.1.1.js"></script> <!-- TODO: add lib for io-->
+        <script src="lib/jCanvas.js"></script>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    </head>
+    <body>
+    <div id="container">
+        <aside class="toolbar">
+            <ul>
+                <li><input id="colorPicker" type="color"></li>
+                <li><button onclick="canvasEventListener.onCommandNameChanged(DRAW_COMMAND);canvasEventListener.onFigureTypeChanged(FIGURE_TYPE_RECTANGLE)">Draw Rectangle</button></li>
+                <li><button onclick="canvasEventListener.onCommandNameChanged(DRAW_COMMAND);canvasEventListener.onFigureTypeChanged(FIGURE_TYPE_Ellipse)">Draw Ellipse</button></li>
+                <li><button onclick="canvasEventListener.onCommandNameChanged(DRAW_COMMAND);canvasEventListener.onFigureTypeChanged(FIGURE_TYPE_LINE)">Draw Line</button></li>
+                <li><button onclick="canvasEventListener.onCommandNameChanged(SELECT_COMMAND)">Select and Drag</button></li>
+                <li><button onclick="canvasEventListener.onCommandNameChanged(DELETE_FIGURE_COMMAND)">Delete Figure</button></li>
+                <li><button onclick="canvasEventListener.onCommandNameChanged(PAINT_FIGURE_COMMAND)">Paint Figure</button></li>
+                <li>Manipulate
+                    <ul>
+                        <li>Rotate</li>
+                        <li>Translate</li>
+                    </ul>
+                </li>
+                <li>File
+                    <ul>
+                        <li><button onclick="canvasEventListener.onCommandNameChanged(CANVAS_IMG_EXPORT)">Export</button>Export</li> <!--  -->
+                        <li>Save As</li>
+                    </ul>
+                </li>
+            </ul>
+            <span id="img-output"></span>
+        </aside>
+        <main class="canvas"  >
+            <canvas id="canvas" width="1000" height="800"></canvas>
+        </main>
+        <div id="export"></div>
+    </div>
+    <script src="js/util/io-utils.js"></script>
+    <script src="js/util/html-appender.js"></script>
+    <script src="js/event/figure-event.js"></script>
+    <script src="js/event/command-event.js"></script>
+    <script src="js/constant/constants.js"></script>
+    <script src="js/core/figure-drawer-handler.js"></script>
+    <script src="js/core/canvas-event-listener.js"></script>
+    <script src="js/core/menu-command-handler.js"></script>
+    <script src="js/app.js"></script>
+    </body>
+</html>

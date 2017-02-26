@@ -1,0 +1,14 @@
+#canvas{
+    /*width: 90%;*/
+    /*height: 90%;*/
+    /*display: inline-block;*/
+    /*float: left;*/
+    /*border: 2px solid darkblue;*/
+}
+
+.toolbar{
+    width: 10%;
+    height: 20%;
+    display: inline-block;
+    float: left;
+}
