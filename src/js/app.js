@@ -5,10 +5,11 @@ var canvas = $('#canvas');
 
 
 
-var figureDrawEventHandler = new CanvasEventHandler(canvas);
-var menuCommandHandler = new MenuCommandHandler(canvas);
+var canvasEventHandler = new CanvasEventHandler(canvas);
+var menuEventHandler = new MenuEventHandler(canvas);
 
-var canvasEventListener = new CanvasEventListener(canvas);
+var indexHtmlEventListener = new IndexHtmlEventListener(canvas);
 
-canvasEventListener.addHandler(figureDrawEventHandler);
-canvasEventListener.addHandler(menuCommandHandler);
+indexHtmlEventListener.addHandler(canvasEventHandler);
+indexHtmlEventListener.addHandler(menuEventHandler);
+

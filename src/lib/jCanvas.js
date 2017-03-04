@@ -1,5 +1,5 @@
 /**
- * @license jCanvas v16.07.03
+ * @license jCanvas v16.02.08
  * Copyright 2016 Caleb Evans
  * Released under the MIT license
  */
@@ -17,17 +17,17 @@
 }( typeof window !== 'undefined' ? window.jQuery : {}, typeof window !== 'undefined' ? window : this, function( $, window ) {
 
 var document = window.document,
-	Image = window.Image,
-	Array = window.Array,
-	getComputedStyle = window.getComputedStyle,
-	Math = window.Math,
+    Image = window.Image,
+    Array = window.Array,
+    getComputedStyle = window.getComputedStyle,
+    Math = window.Math,
 	Number = window.Number,
-	parseFloat = window.parseFloat,
-	TRUE = true,
-	FALSE = false,
-	NULL = null,
+    parseFloat = window.parseFloat,
+    TRUE = true,
+    FALSE = false,
+    NULL = null,
 	// jshint -W080
-	UNDEFINED = undefined;
+    UNDEFINED = undefined;
 
 // Define local aliases to frequently used properties
 var defaults,
@@ -299,7 +299,7 @@ function _setGlobalProps( canvas, ctx, params ) {
 	if ( ctx.setLineDash ) {
 		ctx.setLineDash( params.strokeDash );
 	}
-	ctx.webkitLineDash = params.strokeDash;
+	ctx.webkitLineDash = ctx.mozDash = params.strokeDash;
 	ctx.lineDashOffset = ctx.webkitLineDashOffset = ctx.mozDashOffset = params.strokeDashOffset;
 	// Drop shadow
 	ctx.shadowOffsetX = params.shadowX;
@@ -1322,7 +1322,7 @@ css.cursors = [ 'grab', 'grabbing', 'zoom-in', 'zoom-out' ];
 
 // Function to detect vendor prefix
 // Modified version of David Walsh's implementation
-// https://davidwalsh.name/vendor-prefix
+// http://davidwalsh.name/vendor-prefix
 css.prefix = ( function () {
 	var styles = getComputedStyle( document.documentElement, '' ),
 		pre = ( arraySlice
@@ -1804,11 +1804,12 @@ function _colorToRgbArray( color ) {
 		rgb = [],
 		multiple = 1;
 
-	// Deal with complete transparency
-	if ( color === 'transparent' ) {
-		color = 'rgba(0, 0, 0, 0)';
-	} else if ( color.match( /^([a-z]+|#[0-9a-f]+)$/gi ) ) {
-		// Deal with hexadecimal colors and color names
+	// Deal with hexadecimal colors and color names
+	if ( color.match( /^([a-z]+|#[0-9a-f]+)$/gi ) ) {
+		// Deal with complete transparency
+		if ( color === 'transparent' ) {
+			color = 'rgba(0, 0, 0, 0)';
+		}
 		elem = document.head;
 		originalColor = elem.style.color;
 		elem.style.color = color;
@@ -2238,7 +2239,7 @@ function _createEvent( eventName ) {
 		function eventCallback( event ) {
 			// Cache current mouse position and redraw layers
 			eventCache.x = event.offsetX;
-			eventCache.y = event._offsetY;
+			eventCache.y = event.offsetY;
 			eventCache.type = helperEventName;
 			eventCache.event = event;
 			// Redraw layers on every trigger of the event
@@ -2339,7 +2340,7 @@ function _detectEvents( canvas, ctx, params ) {
 	}
 }
 
-// Normalize offsetX and _offsetY for all browsers
+// Normalize offsetX and offsetY for all browsers
 $.event.fix = function ( event ) {
 	var offset, originalEvent, touches;
 
@@ -2351,19 +2352,19 @@ $.event.fix = function ( event ) {
 
 		touches = originalEvent.changedTouches;
 
-		// If offsetX and _offsetY are not supported, define them
+		// If offsetX and offsetY are not supported, define them
 		if ( event.pageX !== UNDEFINED && event.offsetX === UNDEFINED ) {
 			offset = $( event.currentTarget ).offset();
 			if ( offset ) {
 				event.offsetX = event.pageX - offset.left;
-				event._offsetY = event.pageY - offset.top;
+				event.offsetY = event.pageY - offset.top;
 			}
 		} else if ( touches ) {
-			// Enable offsetX and _offsetY for mobile devices
+			// Enable offsetX and offsetY for mobile devices
 			offset = $( event.currentTarget ).offset();
 			if ( offset ) {
 				event.offsetX = touches[ 0 ].pageX - offset.left;
-				event._offsetY = touches[ 0 ].pageY - offset.top;
+				event.offsetY = touches[ 0 ].pageY - offset.top;
 			}
 		}
 
@@ -3615,7 +3616,7 @@ $.fn.drawText = function drawText( args ) {
 		params, layer,
 		lines, line, l,
 		fontSize, constantCloseness = 500,
-		nchars, chars, ch, c,
+		nchars, ch, c,
 		x, y;
 
 	for ( e = 0; e < $canvases.length; e += 1 ) {
@@ -3691,11 +3692,6 @@ $.fn.drawText = function drawText( args ) {
 						ctx.save();
 						ctx.translate( params.x, params.y );
 						line = lines[ l ];
-						if ( params.flipArcText ) {
-							chars = line.split( '' );
-							chars.reverse();
-							line = chars.join( '' );
-						}
 						nchars = line.length;
 						ctx.rotate( -( PI * params.letterSpacing * ( nchars - 1 ) ) / 2 );
 						// Loop through characters on each line
@@ -3708,18 +3704,7 @@ $.fn.drawText = function drawText( args ) {
 							}
 							ctx.save();
 							ctx.translate( 0, -params.radius );
-							if ( params.flipArcText ) {
-								ctx.scale( -1, -1 );
-							}
 							ctx.fillText( ch, 0, 0 );
-							// Prevent extra shadow created by stroke ( but only when fill is present )
-							if ( params.fillStyle !== 'transparent' ) {
-								ctx.shadowColor = 'transparent';
-							}
-							if ( params.strokeWidth !== 0 ) {
-								// Only stroke if the stroke is not 0
-								ctx.strokeText( ch, 0, 0 );
-							}
 							ctx.restore();
 						}
 						params.radius -= fontSize;
