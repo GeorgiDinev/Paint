@@ -1,3 +1,5 @@
+"use strict";
+
 Function.prototype.extends = function(parent){
     if (!Object.create) {
         Object.create = function (proto) {

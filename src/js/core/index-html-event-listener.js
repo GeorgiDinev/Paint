@@ -13,8 +13,7 @@ var IndexHtmlEventListener = (function(){
         this._offsetY = this._canvasOffset.top;
         this._startX = this._startY = null;
         this._isDrawing = false;
-        this._layerGroupCounter = 0; // TODO: export to util class, if import canvas -> find the last layerGroupCounter
-        this._shapeColor = $('#colorPicker').val();// TODO: on color change
+        this._shapeColor = $('#colorPicker').val();
 
         initCanvasEventListeners(this);
 
@@ -40,7 +39,7 @@ var IndexHtmlEventListener = (function(){
 
 
         if(!disabled){
-    +        context._canvas
+            context._canvas
                 .on('mousedown', onMouseDown)
                 .on('mouseup', onMouseUp)
                 .on('mousemove', onMouseMove );
@@ -58,16 +57,15 @@ var IndexHtmlEventListener = (function(){
 // in case of select and draw actions
     function handleMouseMove(e, context) {
 
-        if (context._isDrawing && (context._commandName === DRAW_COMMAND)) { // draw mode
+        if (context._isDrawing && (context._commandName === DRAW_COMMAND)) {
             var mouseX = parseInt(e.clientX - context._offsetX);
             var mouseY = parseInt(e.clientY - context._offsetY);
 
             var newWidth = mouseX - context._startX;
             var newHeight = mouseY - context._startY;
 
-            // delete the layers
-            var layerGroupName = "LayerGroup " + context._layerGroupCounter;
-
+            var layerGroupName = LayerGroupUtil.getCurrentLayerGroupNumber();
+            console.log(layerGroupName);
             if(context._figureType){
                 var deleteLayerGroupEvent = getDeleteLayerGroupEvent(layerGroupName);
                 throwEvent(deleteLayerGroupEvent, context);
@@ -99,8 +97,7 @@ var IndexHtmlEventListener = (function(){
     }
     function handleMouseUp(e, context) {
         if(context._isDrawing){
-            // TODO: throw event to selector-command
-            context._layerGroupCounter++; // TODO: Possible overlapping groups after export
+            LayerGroupUtil.incrementCurrentLayerGroupNumber();
         }
         context._isDrawing = false;
         context._canvas.css('cursor', 'default');
@@ -126,7 +123,6 @@ var IndexHtmlEventListener = (function(){
 
     function onFigureTypeChanged(figureTypeName){
         this._figureType = figureTypeName;
-        console.log('Later group counter ' + this._layerGroupCounter);
     }
 
     function onMenuCommandChanged(commandName){

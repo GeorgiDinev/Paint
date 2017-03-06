@@ -1,3 +1,5 @@
+"use strict";
+
 var MenuCommandChangedEvent  = (function () {
     function MenuCommandChangedEvent(commandName) {
         this.commandName = commandName;

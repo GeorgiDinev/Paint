@@ -1,5 +1,6 @@
-function IOUtils() {
+"use strict";
 
+function IOUtils() {
 }
 
 IOUtils.getBase64EncodedCanvasImg = function(canvas, format, quality){
@@ -13,19 +14,23 @@ IOUtils.saveFile = function(content, fileName, mimeType){ // TODO: does not work
 };
 
 
-IOUtils.saveCanvasImage = function(content, fileName){
+IOUtils.saveCanvasImage = function(content, fileName, parent){
     var link = document.createElement('a');
 
+    link.style = 'visibility: hidden';
     link.setAttribute('href', content);
     link.setAttribute('download', fileName);
+
+    if(parent){
+        parent.appendChild(link);
+    }
+
     link.click();
 };
 
 
 
-IOUtils.load = function load(){
-    var fileInput = $('#canvas-json-import');
-
+IOUtils.loadJSONDataFromFIle = function loadJSONDataFromFIle(fileInput, onFileSuccessLoadedListener){
     if (!window.FileReader) {
         alert('Your browser is not supported');
         return false;
@@ -40,19 +45,15 @@ IOUtils.load = function load(){
     } else {
         alert('Please upload a file before continuing')
     }
-}
 
-function processFile(e) {
-    console.log('proccessFile');
-    var file = e.target.result;
-    if (file && file.length) {
-        var canvasJsonImport = JSON.parse(file);
-        canvas.removeLayers().drawLayers();
-
-        canvasJsonImport.forEach(function(loadedlayer){
-            canvas.addLayer(loadedlayer);
-        });
-        canvas.drawLayers();
+    function processFile(e) {
+        var file = e.target.result;
+        if (file && file.length && onFileSuccessLoadedListener) {
+            var JSONFromFile = JSON.parse(file);
+            onFileSuccessLoadedListener.call(this, JSONFromFile);
+        }
     }
-}
+};
+
+
 

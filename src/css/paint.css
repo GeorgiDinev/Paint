@@ -1,14 +1,30 @@
-#canvas{
-    /*width: 90%;*/
-    /*height: 90%;*/
-    /*display: inline-block;*/
-    /*float: left;*/
-    /*border: 2px solid darkblue;*/
-}
+#container .toolbar {
+  width: 185px;
+  height: 500px;
+  display: inline-block;
+  float: left;
+  margin-right: 5%; }
+  #container .toolbar #colorPicker {
+    width: 100%;
+    margin-bottom: 15px; }
+  #container .toolbar .btn-group-vertical {
+    width: 100%; }
+    #container .toolbar .btn-group-vertical .nested {
+      width: 100%; }
+    #container .toolbar .btn-group-vertical .caret {
+      float: right; }
+    #container .toolbar .btn-group-vertical img {
+      width: 30px;
+      height: 30px;
+      float: right; }
+    #container .toolbar .btn-group-vertical button {
+      white-space: normal;
+      width: 100%;
+      text-align: left;
+      margin-bottom: 15px; }
+      #container .toolbar .btn-group-vertical button span {
+        word-wrap: break-word; }
+#container #canvas {
+  border: 2px solid green; }
 
-.toolbar{
-    width: 10%;
-    height: 20%;
-    display: inline-block;
-    float: left;
-}
+/*# sourceMappingURL=paint.css.map */

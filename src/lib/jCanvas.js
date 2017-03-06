@@ -1480,7 +1480,7 @@ $.fn.drawLayers = function drawLayers( args ) {
 				// Store list of previous masks for each layer
 				layer._masks = data.transforms.masks.slice( 0 );
 
-				// Allow image layers to load before drawing successive layers
+				// Allow image layers to loadJSONDataFromFIle before drawing successive layers
 				if ( layer._method === $.fn.drawImage && layer.visible ) {
 					isImageLayer = true;
 					break;
@@ -3907,17 +3907,17 @@ $.fn.drawImage = function drawImage( args ) {
 		_restoreTransform( ctx, params );
 		_enableMasking( ctx, data, params );
 	}
-	// On load function
+	// On loadJSONDataFromFIle function
 	function onload( canvas, ctx, data, params, layer ) {
 		return function () {
 			var $canvas = $( canvas );
 			draw( canvas, ctx, data, params, layer );
 			if ( params.layer ) {
-				// Trigger 'load' event for layers
-				_triggerLayerEvent( $canvas, data, layer, 'load' );
-			} else if ( params.load ) {
-				// Run 'load' callback for non-layers
-				params.load.call( $canvas[ 0 ], layer );
+				// Trigger 'loadJSONDataFromFIle' event for layers
+				_triggerLayerEvent( $canvas, data, layer, 'loadJSONDataFromFIle' );
+			} else if ( params.loadJSONDataFromFIle ) {
+				// Run 'loadJSONDataFromFIle' callback for non-layers
+				params.loadJSONDataFromFIle.call( $canvas[ 0 ], layer );
 			}
 			// Continue drawing successive layers after this image layer has loaded
 			if ( params.layer ) {
@@ -3999,8 +3999,8 @@ $.fn.createPattern = function createPattern( args ) {
 		// Create pattern
 		pattern = ctx.createPattern( img, params.repeat );
 		// Run callback function if defined
-		if ( params.load ) {
-			params.load.call( $canvases[ 0 ], pattern );
+		if ( params.loadJSONDataFromFIle ) {
+			params.loadJSONDataFromFIle.call( $canvases[ 0 ], pattern );
 		}
 	}
 
@@ -4012,7 +4012,7 @@ $.fn.createPattern = function createPattern( args ) {
 		// Cache the given source
 		source = params.source;
 
-		// Draw when image is loaded ( if load() callback function is defined )
+		// Draw when image is loaded ( if loadJSONDataFromFIle() callback function is defined )
 
 		if ( isFunction( source ) ) {
 			// Draw pattern using function if given

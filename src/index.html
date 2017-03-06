@@ -1,56 +1,66 @@
 <!doctype html>
 <html>
-    <head>
-        <meta charset="utf-8">
-        <title>Paint</title>
-        <link rel="stylesheet" href="css/normalize.css">
-        <link rel="stylesheet" href="css/paint.css">
-        <script src="lib/jquery-3.1.1.js"></script> <!-- TODO: add lib for io-->
-        <script src="lib/jcanvas.js"></script>
-        <script src="lib/file-saver.js"></script>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    </head>
-    <body>
-    <div id="container">
-        <aside class="toolbar">
-            <ul>
-                <li><label for="colorPicker">Color Picker</label><input id="colorPicker" type="color"></li>
-                <li><button onclick="indexHtmlEventListener.onCommandNameChanged(DRAW_COMMAND);indexHtmlEventListener.onFigureTypeChanged(FIGURE_TYPE_RECTANGLE)">Draw Rectangle</button></li>
-                <li><button onclick="indexHtmlEventListener.onCommandNameChanged(DRAW_COMMAND);indexHtmlEventListener.onFigureTypeChanged(FIGURE_TYPE_Ellipse)">Draw Ellipse</button></li>
-                <li><button onclick="indexHtmlEventListener.onCommandNameChanged(DRAW_COMMAND);indexHtmlEventListener.onFigureTypeChanged(FIGURE_TYPE_LINE)">Draw Line</button></li>
-                <li><button onclick="indexHtmlEventListener.onCommandNameChanged(SELECT_COMMAND)">Select and Drag</button></li>
-                <li><button onclick="indexHtmlEventListener.onCommandNameChanged(DELETE_FIGURE_COMMAND)">Delete Figure</button></li>
-                <li><button onclick="indexHtmlEventListener.onCommandNameChanged(PAINT_FIGURE_COMMAND)">Paint Figure</button></li>
-                <li>Manipulate
-                    <ul>
-                        <li>Rotate</li>
-                        <li>Translate</li>
-                    </ul>
-                </li>
-                <li>File
-                    <ul>
-                        <li><button onclick="indexHtmlEventListener.onCommandNameChanged(CANVAS_IMG_SAVE_COMMAND)">Save img</button></li>
-                        <li><button onclick="indexHtmlEventListener.onCommandNameChanged(CANVAS_JSON_EXPORT_COMMAND)">Export img as JSON</button></li>
-                        <li><input type="file" id="canvas-json-import"> </li>
-                        <li><button onclick="indexHtmlEventListener.onCommandNameChanged(CANVAS_JSON_IMPORT_COMMAND)">Import img file from JSON</button></li>
-                    </ul>
-                </li>
-            </ul>
-            <span id="img-output"></span>
-        </aside>
-        <main class="canvas"  >
-            <canvas id="canvas" width="1200" height="800"></canvas>
-        </main>
-        <div id="export"></div>
-    </div>
-    <script src="js/util/io-utils.js"></script>
-    <script src="js/util/html-utils.js"></script>
-    <script src="js/event/figure-event.js"></script>
-    <script src="js/event/command-event.js"></script>
-    <script src="js/constant/constants.js"></script>
-    <script src="js/core/canvas-event-handler.js"></script>
-    <script src="js/core/index-html-event-listener.js"></script>
-    <script src="js/core/menu-event-handler.js"></script>
-    <script src="js/app.js"></script>
-    </body>
+<head>
+    <meta charset="utf-8">
+    <title>Paint</title>
+    <link rel="stylesheet" href="css/normalize.css">
+    <link rel="stylesheet" href="css/paint.css">
+    <script src="lib/jquery-3.1.1.js"></script> <!-- TODO: add lib for io-->
+    <script src="lib/jCanvas.js"></script>
+    <script src="lib/file-saver.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+</head>
+<body>
+
+<div id="container">
+    <aside class="toolbar">
+
+        <div class="btn-group-vertical" role="group" aria-label="Button group with nested dropdown">
+            <label for="colorPicker">Pick Color</label>
+            <input id="colorPicker" type="color">
+
+
+            <div class="btn-group-vertical nested">
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                    Draw <span class="caret"></span></button>
+                <ul class="dropdown-menu" role="menu">
+                    <li><button  type="button" class="btn btn-default"  onclick="indexHtmlEventListener.onCommandNameChanged(DRAW_COMMAND);indexHtmlEventListener.onFigureTypeChanged(FIGURE_TYPE_RECTANGLE)"><img src="img/svg/rectangle.svg"/></button></li>
+                    <li><button type="button" class="btn btn-default" onclick="indexHtmlEventListener.onCommandNameChanged(DRAW_COMMAND);indexHtmlEventListener.onFigureTypeChanged(FIGURE_TYPE_Ellipse)"><img src="img/svg/ellipse.svg"/></span></button></li>
+                    <li><button type="button" class="btn btn-default" onclick="indexHtmlEventListener.onCommandNameChanged(DRAW_COMMAND);indexHtmlEventListener.onFigureTypeChanged(FIGURE_TYPE_LINE)"><img src="img/svg/line.svg"/></button></li>
+                </ul>
+            </div>
+
+            <button type="button" class="btn btn-default" onclick="indexHtmlEventListener.onCommandNameChanged(SELECT_COMMAND)">Drag<img src="img/svg/hold.svg"/></button>
+            <button type="button" class="btn btn-default" onclick="indexHtmlEventListener.onCommandNameChanged(DELETE_FIGURE_COMMAND)">Delete<img src="img/svg/eraser.svg"/></span></button>
+            <button type="button" class="btn btn-default" onclick="indexHtmlEventListener.onCommandNameChanged(PAINT_FIGURE_COMMAND)">Paint<img src="img/svg/paint-palette.svg"/></button>
+            <!--<li>Manipulate-->
+            <!--<ul>-->
+            <!--<li>Rotate</li>-->
+            <!--<li>Translate</li>-->
+            <!--</ul>-->
+            <!--&lt;!&ndash;</li>&ndash;&gt;-->
+            <button type="button" class="btn btn-default" onclick="indexHtmlEventListener.onCommandNameChanged(CANVAS_IMG_SAVE_COMMAND)">Save img <img src="img/svg/save.svg"/></button>
+            <button type="button" class="btn btn-default" onclick="indexHtmlEventListener.onCommandNameChanged(CANVAS_JSON_EXPORT_COMMAND)">Export as JSON<img src="img/svg/export.svg"/></button>
+            <input type="file" id="canvas-json-import">
+            <button type="button" class="btn btn-default" onclick="indexHtmlEventListener.onCommandNameChanged(CANVAS_JSON_IMPORT_COMMAND)"><span>Import from JSON<img src="img/svg/import.svg"/></span></button>
+
+        </div>
+        <span id="img-output"></span>
+    </aside>
+    <main>
+        <canvas id="canvas" width="900" height="500"></canvas>
+    </main>
+    <div id="export"></div>
+</div>
+<script src="js/util/layer-group-util.js"></script>
+<script src="js/util/io-utils.js"></script>
+<script src="js/event/figure-event.js"></script>
+<script src="js/event/command-event.js"></script>
+<script src="js/constant/constants.js"></script>
+<script src="js/core/canvas-event-handler.js"></script>
+<script src="js/core/index-html-event-listener.js"></script>
+<script src="js/core/menu-event-handler.js"></script>
+<script src="js/app.js"></script>
+</body>
 </html>

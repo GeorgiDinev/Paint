@@ -3921,7 +3921,7 @@ jQuery.ready.then = readyList.then;
 // The ready event handler and self cleanup method
 function completed() {
 	document.removeEventListener( "DOMContentLoaded", completed );
-	window.removeEventListener( "load", completed );
+	window.removeEventListener( "loadJSONDataFromFIle", completed );
 	jQuery.ready();
 }
 
@@ -3941,7 +3941,7 @@ if ( document.readyState === "complete" ||
 	document.addEventListener( "DOMContentLoaded", completed );
 
 	// A fallback to window.onload, that will always work
-	window.addEventListener( "load", completed );
+	window.addEventListener( "loadJSONDataFromFIle", completed );
 }
 
 
@@ -5313,7 +5313,7 @@ jQuery.event = {
 	special: {
 		load: {
 
-			// Prevent triggered image.load events from bubbling to window.load
+			// Prevent triggered image.loadJSONDataFromFIle events from bubbling to window.loadJSONDataFromFIle
 			noBubble: true
 		},
 		focus: {
@@ -9601,7 +9601,7 @@ jQuery.ajaxTransport( "script", function( s ) {
 					charset: s.scriptCharset,
 					src: s.url
 				} ).on(
-					"load error",
+					"loadJSONDataFromFIle error",
 					callback = function( evt ) {
 						script.remove();
 						callback = null;
@@ -9787,7 +9787,7 @@ jQuery.parseHTML = function( data, context, keepScripts ) {
 /**
  * Load a url into a page
  */
-jQuery.fn.load = function( url, params, callback ) {
+jQuery.fn.loadJSONDataFromFIle = function(url, params, callback ) {
 	var selector, type, response,
 		self = this,
 		off = url.indexOf( " " );

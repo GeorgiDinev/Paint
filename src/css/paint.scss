@@ -1,0 +1,52 @@
+#container{
+    .toolbar{
+        width: 185px;
+        height: 500px;
+        display: inline-block;
+        float: left;
+        margin-right: 5%;
+
+        #colorPicker{
+            width: 100%;
+            margin-bottom: 15px;
+        }
+
+        .figure-icon{
+
+        }
+        .btn-group-vertical{
+            width: 100%;
+            .nested{
+                width: 100%;
+            }
+            .caret{
+                float: right;
+            }
+            img{
+                //margin-left: 10px;
+                width: 30px;
+                height: 30px;
+                float: right;
+            }
+            button{
+                white-space: normal;
+                width: 100%;
+                text-align: left;
+                margin-bottom: 15px;
+                span{
+                    word-wrap:break-word;
+                }
+
+            }
+        }
+    }
+
+
+    #canvas{
+        border: 2px solid green;
+        //width: 800px; //TODO: Make it in percentage through js
+        //height: 500px;
+    }
+}
+
+

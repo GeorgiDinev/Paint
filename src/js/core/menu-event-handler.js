@@ -1,7 +1,10 @@
+"use strict";
+
 var MenuEventHandler = (function () {
     function MenuEventHandler(canvas) {
         this._canvas = canvas;
         this._color = DEFAULT_SHAPE_COLOR;
+
     }
 
     MenuEventHandler.prototype.handleEvent = function(event){
@@ -15,20 +18,19 @@ var MenuEventHandler = (function () {
             var canvas = this._canvas;
             var color = this._color;
 
-            var clickCallBackFunction = {
-                    delete: function (layer) {
-                        canvas.removeLayer(layer).drawLayers();
-                    },
-                    paint: function(layer){
-                        layer.fillStyle = color;
-                        layer.strokeStyle = color;
-                        canvas.drawLayer(layer);
-                    }
-                };
-
+            var clickCallBackFunctions = {
+                delete: function (layer) {
+                    canvas.removeLayer(layer).drawLayers();
+                },
+                paint: function(layer){
+                    layer.fillStyle = color;
+                    layer.strokeStyle = color;
+                    canvas.drawLayer(layer);
+                }
+            };
             this._canvas.setLayers({
                     draggable: event.commandName === SELECT_COMMAND,
-                    click: clickCallBackFunction[event.commandName]
+                    click: clickCallBackFunctions[event.commandName]
             }).drawLayers();
 
             if (event.commandName === CANVAS_IMG_SAVE_COMMAND){
@@ -37,7 +39,7 @@ var MenuEventHandler = (function () {
             }else if (event.commandName === CANVAS_JSON_EXPORT_COMMAND){
                 exportCanvasFile();
             }else if(event.commandName === CANVAS_JSON_IMPORT_COMMAND){
-                IOUtils.load(); // TODO: refactor
+                loadCanvasFromJson();
             }
         }
 
@@ -46,7 +48,7 @@ var MenuEventHandler = (function () {
             var base64EncodedCanvasImg = IOUtils.getBase64EncodedCanvasImg(canvas, CANVAS_EXPORT_IMG_FILE_EXTENSION, 1);
 
             var fileName = CANVAS_EXPORT_IMG_FILE_NAME + '.' + CANVAS_EXPORT_IMG_FILE_EXTENSION;
-            IOUtils.saveCanvasImage(base64EncodedCanvasImg, fileName);
+            IOUtils.saveCanvasImage(base64EncodedCanvasImg, fileName, document.getElementById('container'));
         }
 
         function exportCanvasFile(){
@@ -55,6 +57,17 @@ var MenuEventHandler = (function () {
             var JsonCanvasLayers = JSON.stringify(allCanvasLayers, FIGURE_PROPERTIES);
 
             IOUtils.saveFile(JsonCanvasLayers, CANVAS_EXPORT_FILE_NAME, CANVAS_EXPORT_MIME_TYPE);
+        }
+        function loadCanvasFromJson() {
+            IOUtils.loadJSONDataFromFIle($('#canvas-json-import'), function (loadedLayers) {
+                canvas.removeLayers().drawLayers();
+
+                loadedLayers.forEach(function (layer) {
+                    canvas.addLayer(layer);
+                });
+                LayerGroupUtil.updateCurrentLayerGroupsNumber(loadedLayers);
+                canvas.drawLayers();
+            });
         }
 
     };

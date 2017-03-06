@@ -15,8 +15,8 @@ var DRAW_COMMAND = 'draw',
     DELETE_FIGURE_COMMAND = 'delete',
     PAINT_FIGURE_COMMAND = 'paint',
     CANVAS_IMG_SAVE_COMMAND = 'save',
-    CANVAS_JSON_EXPORT_COMMAND = 'exportJSON';
-    CANVAS_JSON_IMPORT_COMMAND = 'importJSON';
+    CANVAS_JSON_EXPORT_COMMAND = 'exportCanvasJSON',
+    CANVAS_JSON_IMPORT_COMMAND = 'importCanvasJSON';
 
 var FIGURE_PROPERTIES = ['type', 'layer', 'draggable', 'groups', 'strokeStyle' ,'fillStyle',
     'strokeWidth', 'x', 'y', 'width', 'height', 'x1', 'x2', 'y1', 'y2'];
