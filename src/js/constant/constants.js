@@ -2,7 +2,7 @@ var DEFAULT_SHAPE_COLOR ="#000",
     DRAGGING_CURSOR = "crosshair",
     CANVAS_EXPORT_IMG_FILE_NAME = 'canvas-img',
     CANVAS_EXPORT_IMG_FILE_EXTENSION = 'png',
-    CANVAS_EXPORT_FILE_NAME = 'canvas-export.txt',
+    CANVAS_EXPORT_FILE_NAME = 'canvas-export.json',
     CANVAS_EXPORT_MIME_TYPE = '"text/plain;charset=utf-8"';
 
 
